@@ -1,4 +1,4 @@
-package com.retailstore.retailsales.products;
+package com.retailstore.retailsales.model.products;
 
 import lombok.Data;
 

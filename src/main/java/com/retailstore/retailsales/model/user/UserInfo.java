@@ -1,7 +1,9 @@
-package com.retailstore.retailsales.user;
+package com.retailstore.retailsales.model.user;
+
+import lombok.Data;
 
 import java.util.Date;
-
+@Data
 public class UserInfo {
 
     private long userid;
