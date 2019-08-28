@@ -1,5 +1,6 @@
 package com.retailstore.retailsales.model.user;
 
+import com.retailstore.retailsales.common.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,4 +27,16 @@ public class User {
 
     @Column
     private String password;
+
+    public static Builder<User> builder() {
+        return Builder.of(User.class);
+    }
+
+    public static Builder<User> toBuilder(final UserInfo userInfo) {
+        return builder().on(u -> u.getUserid()).set(userInfo.getUserid())
+                .on(u -> u.getUsername()).set(userInfo.getUsername())
+                .on(u -> u.getRole()).set(userInfo.getRole())
+                .on(u -> u.getCreateddate()).set(userInfo.getCreateddate())
+                .on(u -> u.getPassword()).set(userInfo.getPassword());
+    }
 }
