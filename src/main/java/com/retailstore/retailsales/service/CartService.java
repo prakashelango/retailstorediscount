@@ -1,6 +1,7 @@
 package com.retailstore.retailsales.service;
 
 import com.retailstore.retailsales.model.cart.Cart;
+import com.retailstore.retailsales.model.cart.CartInfo;
 import com.retailstore.retailsales.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,8 @@ public class CartService {
     @Autowired
     private CartRepository cartRepository;
 
-    public Optional<Cart> save(Cart cart){
-        return Optional.of(cartRepository.save(cart));
+    public Optional<CartInfo> save(CartInfo cartInfo){
+        return Optional.of(CartInfo.toBuilder(cartRepository.save(Cart.toBuilder(cartInfo).build())).build());
+
     }
 }
