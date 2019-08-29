@@ -1,9 +1,7 @@
 package com.retailstore.retailsales.controller;
 
-import com.retailstore.retailsales.model.cart.Cart;
 import com.retailstore.retailsales.model.cart.CartInfo;
 import com.retailstore.retailsales.service.CartService;
-import com.retailstore.retailsales.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +18,7 @@ public class CartController {
     private CartService cartService;
 
     @RequestMapping(value = "/add" , method = RequestMethod.POST)
-    public Optional<CartInfo> addProducts(@RequestBody CartInfo cartInfo){
+    public Optional<CartInfo> add(@RequestBody CartInfo cartInfo){
         return cartService.save(cartInfo);
     }
 }

@@ -11,9 +11,8 @@ import javax.persistence.*;
 public class Cart {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long cartid;
 
     @Column
     private long userid;
@@ -26,7 +25,7 @@ public class Cart {
     }
 
     public static Builder<Cart> toBuilder(final CartInfo cartInfo) {
-        return builder().on(p -> p.getId()).set(cartInfo.getId())
+        return builder().on(p -> p.getCartid()).set(cartInfo.getCartid())
                 .on(p -> p.getProductid()).set(cartInfo.getProductid())
                 .on(p -> p.getUserid()).set(cartInfo.getUserid());
     }

@@ -13,5 +13,3 @@ spring:
     username: rsales
     password: r1234
     driverClassName: org.h2.Driver
-
-

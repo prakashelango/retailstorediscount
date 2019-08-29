@@ -8,7 +8,7 @@ public class ProductInfo {
     private long id;
     private String itemname;
     private int itemqty;
-    private int itemprice;
+    private float itemprice;
     private String itemtype;
 
     public static Builder<ProductInfo> builder() {
@@ -20,6 +20,6 @@ public class ProductInfo {
                 .on(p -> p.getItemname()).set(product.getItemname())
                 .on(p -> p.getItemprice()).set(product.getItemprice())
                 .on(p -> p.getItemqty()).set(product.getItemqty())
-                .on(p -> p.getItemprice()).set(product.getItemprice());
+                .on(p -> p.getItemtype()).set(product.getItemtype());
     }
 }

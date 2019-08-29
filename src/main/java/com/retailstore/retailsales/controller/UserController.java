@@ -18,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/add" , method = RequestMethod.POST)
-    public Optional<UserInfo> addProducts(@RequestBody UserInfo userInfo){
+    public Optional<UserInfo> add(@RequestBody UserInfo userInfo){
         return userService.save(userInfo);
     }
 

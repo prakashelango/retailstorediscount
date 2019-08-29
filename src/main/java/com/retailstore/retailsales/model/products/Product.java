@@ -22,7 +22,7 @@ public class Product {
     private int itemqty;
 
     @Column
-    private int itemprice;
+    private float itemprice;
 
     @Column
     private String itemtype;

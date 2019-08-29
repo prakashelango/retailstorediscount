@@ -1,15 +1,24 @@
 package com.retailstore.retailsales.model.bill;
 
-import com.retailstore.retailsales.model.products.Product;
+import com.retailstore.retailsales.model.cart.Cart;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import java.util.List;
+import javax.persistence.*;
 
-@
-@Entity
+@Embeddable
 @Data
 public class Bill {
 
-    List<Product> productList;
+    @Id
+    private long id;
+
+    @JoinColumn(name = "CARTID")
+    @OneToMany(cascade =  CascadeType.ALL, fetch = FetchType.EAGER)
+    private Cart cart;
+
+    @Column
+    private float totalamountafterdiscount;
+
+    @Column
+    private float originalamount;
 }

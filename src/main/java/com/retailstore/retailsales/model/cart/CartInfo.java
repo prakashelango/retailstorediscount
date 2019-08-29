@@ -3,12 +3,10 @@ package com.retailstore.retailsales.model.cart;
 import com.retailstore.retailsales.common.Builder;
 import lombok.Data;
 
-import javax.persistence.*;
-
 @Data
 public class CartInfo {
 
-    private long id;
+    private long cartid;
     private long userid;
     private long productid;
 
@@ -17,8 +15,8 @@ public class CartInfo {
     }
 
     public static Builder<CartInfo> toBuilder(final Cart cart) {
-        return builder().on(p -> p.getId()).set(cart.getId())
-                .on(p -> p.getProductid()).set(cart.getProductid())
-                .on(p -> p.getUserid()).set(cart.getUserid());
+        return builder().on(p -> p.getCartid()).set(cart.getCartid())
+                .on(p -> p.getUserid()).set(cart.getUserid())
+                .on(p -> p.getProductid()).set(cart.getProductid());
     }
 }
