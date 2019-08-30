@@ -38,8 +38,12 @@ public class BillService {
     public Optional<BillInfo> calculateBill(long userid) {
         final List<Cart> cartObjects = cartRepository.findAllByUserid(userid);
         List<BillInfo> billInfos = cartObjects.stream().map(o -> getProductsPrice(o.getUserid(), o.getProductid())).collect(Collectors.toList());
-        billInfos.stream().map(billInfo -> billInfo.getOriginalamount())
-        return Optional.empty();
+        BillInfo billinfo = getBillInfo(0,0);
+        for (int bill=0; bill<billInfos.size(); bill++){
+            billinfo.setOriginalamount(billinfo.getOriginalamount()+billInfos.get(bill).getOriginalamount());
+            billinfo.setTotalamountafterdiscount(billinfo.getTotalamountafterdiscount()+billInfos.get(bill).getTotalamountafterdiscount());
+        }
+        return Optional.of(billinfo);
     }
 
     private BillInfo getProductsPrice(long userid, long productid) {
@@ -58,7 +62,8 @@ public class BillService {
 
     private BillInfo getBillInfo(float afterDiscount , float itemoriginalPrice){
         return BillInfo.builder().on(billInfo -> billInfo.getOriginalamount()).set(itemoriginalPrice)
-                .on(billInfo -> billInfo.getTotalamountafterdiscount()).set(afterDiscount).build();
+                .on(billInfo -> billInfo.getTotalamountafterdiscount()).set(afterDiscount)
+                .on(billInfo -> billInfo.getId()).set(0l).build();
     }
     private float calculateDiscount(Date usercreationDate, float itemprice , String role , String itemtype , List<DiscountMapper> discountMappers){
         float discount=0;
@@ -66,24 +71,24 @@ public class BillService {
             String key = discountMappers.get(dmap).getKEY();
             String rule = discountMappers.get(dmap).getRULE();
             String value = discountMappers.get(dmap).getVALUE();
-            if (key.equals("PRODUCTTYPE") && rule.equals("GROCERY") && itemtype.equals("GROCERY")){
-                return discount;
-            }else
-            switch (key) {
-                case "EMPLOYEE":
-                    if(role.equalsIgnoreCase(key))
-                    return itemprice - (itemprice*(Float.parseFloat(value)/100.0f));
-                case "AFFILIATE":
-                    return itemprice - (itemprice*(Float.parseFloat(value)/100.0f));
-                case "CUSTOMER":
-                    LocalDateTime localDateTime = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                    if(usercreationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().isBefore(localDateTime.minusYears(Long.parseLong(rule))))
-                    return itemprice - (itemprice*(Float.parseFloat(value)/100.0f));
-                case "TOTALBILL":
-                    if(itemprice > Float.parseFloat(rule))
-                    return itemprice - (itemprice/Integer.parseInt(rule))*Integer.parseInt(value);
-                default:
-                    return discount;
+            System.out.println("Key"+key +"rule" + rule + "value"+value);
+            if (!rule.equals("GROCERY") && !itemtype.equals("GROCERY")) {
+                switch (key) {
+                    case "EMPLOYEE":
+                        if (role.equalsIgnoreCase(key))
+                            return itemprice - (itemprice * (Float.parseFloat(value) / 100.0f));
+                    case "AFFILIATE":
+                        return itemprice - (itemprice * (Float.parseFloat(value) / 100.0f));
+                    case "CUSTOMER":
+                        LocalDateTime localDateTime = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                        if (usercreationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().isBefore(localDateTime.minusYears(Long.parseLong(rule))))
+                            return itemprice - (itemprice * (Float.parseFloat(value) / 100.0f));
+                    case "TOTALBILL":
+                        if (itemprice > Float.parseFloat(rule))
+                            return itemprice - (itemprice / Integer.parseInt(rule)) * Integer.parseInt(value);
+                    default:
+                        return itemprice - discount;
+                }
             }
         }
         return discount;
