@@ -14,5 +14,5 @@ public class DiscountMapper {
     private long id;
 
     @Column
-    private String KEY,RULE,VALUE;
+    private String key, rule, value;
 }
